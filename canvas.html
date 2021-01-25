@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Gamedev Canvas Workshop</title>
+	<link rel="stylesheet" href="./bootstrap.min.css">
+	<link rel="stylesheet" href="./bootstrap-theme.min.css">
+	<style>
+		* { 
+			padding: 0; 
+			margin: 0; 
+		}
+		canvas { 
+			background: #ffd9b3;
+			border: 1px solid #000000;
+		}
+		.canvasDiv{
+			padding-top : 20px;
+		}
+		.turnDiv{
+			padding-top : 100px;
+			font-size: 80px;
+			font-family: BinggraeSamanco;
+		}
+		.btn{
+			width: 300px;
+			height: 100px;
+			font-size: 60px;
+			font-family: "SDSamliphopangche_Outline";
+		}
+		.divBtn{
+			display: block;
+			margin: 0 auto; 
+			text-align: center;
+		}
+		.divMain{
+			margin: 0 auto;
+			display: block;
+			text-align: center;
+		}
+		.btn-default{
+			width: 200px;
+			height: 80px;
+			font-size: 40px;
+		}
+		.theEnd{
+			margin-top: 270px;
+			font-size: 40px;
+			text-align: center;
+		}
+		.endImage{
+			width: 780px;
+			height: 300px;
+			text-align:center;
+		}
+		.poroList{
+			width: 100%;
+			height: 100%;
+			display: inline;
+		}
+		.poro{
+			width: 100%;
+			height: 50%;
+			margin-top: 200px;
+		}
+		.deadImg{
+			margin-left: 50px;
+		}
+	</style>
+	<script src="./jquery-3.4.1.js"></script>
+	<script src="./bootstrap.js"></script>
+	<script src="./bootbox.js"></script>
+	<script src="./jquery.min.js"></script>
+	<script src="./jquery.form.min.js"></script>
+	<script src="./canvas.js"></script>
+	<script src="./recticle.js"></script>
+	<script src="./text.js"></script>
+	<script src="./btn.js"></script>
+	<script src="./image.js"></script>
+</head>
+<body>
+<div class="divMain">
+	<div id="turnDiv" class="turnDiv">십이장기</div>
+	<div class="canvasDiv">
+		<canvas onClick="javascript:canvasClick('0');" id="myCanvas1" width="300" height="300">1</canvas>
+		<canvas onClick="javascript:canvasClick('1');" id="myCanvas2" width="300" height="300">2</canvas>
+		<canvas onClick="javascript:canvasClick('2');" id="myCanvas3" width="300" height="300">3</canvas>
+		<canvas onClick="javascript:canvasClick('3');" id="myCanvas4" width="300" height="300">4</canvas>
+		<canvas onClick="javascript:canvasClick('4');" id="myCanvas5" width="300" height="300">5</canvas>
+		<canvas onClick="javascript:canvasClick('5');" id="myCanvas6" width="300" height="300">6</canvas>
+		<canvas onClick="javascript:canvasClick('6');" id="myCanvas7" width="300" height="300">7</canvas>
+		<canvas onClick="javascript:canvasClick('7');" id="myCanvas8" width="300" height="300">8</canvas>
+		<canvas onClick="javascript:canvasClick('8');" id="myCanvas9" width="300" height="300">9</canvas>
+		<canvas onClick="javascript:canvasClick('9');" id="myCanvas10" width="300" height="300">10</canvas>
+		<canvas onClick="javascript:canvasClick('10');" id="myCanvas11" width="300" height="300">11</canvas>
+		<canvas onClick="javascript:canvasClick('11');" id="myCanvas12" width="300" height="300">12</canvas>
+	</div>
+</div>
+
+
+<script>
+	var piArr = new Array(); //게임 말 담는 객체 배열
+	var deadArr = new Array(); //포로 말 담는 객체 배열
+	var startYN = false; //게임 시작 / 끝
+	var pieceTemp = null; //이전 선택한 말
+	var nextPiece = null; //이동 가능한 위치 배열
+	var turn = 'A';
+	var count = 0;
+	//초기 세팅
+	for(var i=1; i<5; i++){
+		for(var j=1; j<4; j++){
+			var color = '';
+			var player = '';
+			if(i>2){
+				color = 'red';
+				player = 'A';
+			}else{
+				color = 'green';
+				player = 'B';
+			}
+			var piece = new Object();
+			piece.loc = i+''+j;
+			if(piece.loc == '12' || piece.loc == '42'){
+				piece.name = '王';
+				piece.subname = 'K';
+				piece.vali = 'on';
+				piece.color = color;
+				piece.player = player;
+			}else if(piece.loc == '11' || piece.loc == '43'){
+				piece.name = '將';
+				piece.subname = 'G';
+				piece.vali = 'on';
+				piece.color = color;
+				piece.player = player;
+			}else if(piece.loc == '13' || piece.loc == '41'){
+				piece.name = '相';
+				piece.subname = 'S';
+				piece.vali = 'on';
+				piece.color = color;
+				piece.player = player;
+			}else if(piece.loc == '22' || piece.loc == '32'){
+				piece.name = '子';
+				piece.subname = 'J';
+				piece.vali = 'on';
+				piece.color = color;
+				piece.player = player;
+			}else{
+				piece.name = '';
+				piece.subname = '';
+				piece.vali = 'off';
+				piece.color = '';
+				piece.player = '';
+			}
+			piece.img = piece.color+'_'+piece.subname+'.png';
+			piece.click = false;
+			piece.canvas = $('#myCanvas'+(count+1))[0];
+			piArr[count] = piece;
+			count++;
+		}
+	}
+
+	//console.log(piArr);
+
+	console.log('innerWidth :::::: '+window.innerWidth);
+	console.log('innerHeight :::::: '+window.innerHeight);
+</script>
+
+<div class="divBtn">
+	<button id="startBtn" class="btn-primary btn" onClick="javascript:gameStart();">start</button>
+	<button id="deadPieceBtn" class="btn-primary btn" onClick="javascript:deadPiece();" style="display:none;">deadPiece</button>
+	<button id="restartBtn" class="btn-success btn" onClick="javascript:reStart();">restart</button>
+	<button id="rule" class="btn-info btn" onClick="javascript:rule();">rule</button>
+</div>
+</body>
+</html>
