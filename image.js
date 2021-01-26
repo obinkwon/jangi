@@ -44,8 +44,10 @@ function imageClick(piece){ //이미지 클릭
 
 function imageMove(piece){ //이미지 이동
 	if(nextPiece.indexOf(piece.loc) > -1){
+		if(pieceTemp.subname == 'J'){
+			pieceCheck(piece);
+		}
         pieceTemp.click = false;
-		piece.name = pieceTemp.name;
 		piece.subname = pieceTemp.subname;
 		piece.color = pieceTemp.color;
         piece.player = pieceTemp.player;
@@ -63,6 +65,24 @@ function imageMove(piece){ //이미지 이동
 	}
 }
 
+function imageSet(piece){ //이미지 이동
+	deadCancel();
+	if(nextPiece.indexOf(piece.loc) > -1){
+		piece.subname = deadTemp.subname;
+		piece.color = deadTemp.color;
+        piece.player = deadTemp.player;
+        piece.img = piece.color+'_'+piece.subname+'.png';
+		piece.vali = 'on';
+        imageDraw(piece);
+        deadArr[deadTemp.num] = '';
+        deadTemp = null;
+		return true;
+	}else{
+		deadTemp = null;
+		return false;
+	}
+}
+
 function imageAttack(piece){ //이미지 공격
 	if(nextPiece.indexOf(piece.loc) > -1){
 		if(piece.subname == 'K') {
@@ -70,12 +90,11 @@ function imageAttack(piece){ //이미지 공격
 		}
 		piece.color = pieceTemp.color;
 		piece.player = pieceTemp.player;
-		console.log(piece);
+		//console.log(piece);
 		var dead = newPiece(piece);
 		deadArr[deadArr.length] = dead;
 
         pieceTemp.click = false;
-		piece.name = pieceTemp.name;
 		piece.subname = pieceTemp.subname;
         piece.img = pieceTemp.img;
 		piece.vali = 'on';

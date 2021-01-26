@@ -46,7 +46,6 @@ function circleInit(){// 원 초기화
 function circleMove(piece){ //원 이동
 	if(nextPiece.indexOf(piece.loc) > -1){
 		pieceTemp.click = false;
-		piece.name = pieceTemp.name;
 		piece.subname = pieceTemp.subname;
 		piece.color = pieceTemp.color;
 		piece.player = pieceTemp.player;
@@ -94,7 +93,6 @@ function circleAttack(piece){ // 원 공격
 			startYN = false;	
 		}
 		pieceTemp.click = false;
-		piece.name = pieceTemp.name;
 		piece.subname = pieceTemp.subname;
 		piece.color = pieceTemp.color;
 		piece.player = pieceTemp.player;

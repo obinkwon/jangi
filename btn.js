@@ -7,8 +7,6 @@ function gameStart(){// 게임 시작
 	turnSet();
 	piArr.forEach(function(piece){
 		if(piece.vali == 'on'){
-			//circleDraw(piece); //원 그리기
-			//textDraw(piece); //글씨 쓰기
 			imageDraw(piece);//이미지 그리기
 		}
 	});
@@ -50,20 +48,6 @@ function rule(){
 	});
 }
 
-function nextTurn(pass){ //턴 넘기기
-	if(pass){
-		if(turn == 'A'){
-			turn = 'B';
-			$('#turnDiv').text('B turn');
-			$('#turnDiv').css({'color':'green'});
-		}else{
-			turn = 'A';
-			$('#turnDiv').text('A turn');
-			$('#turnDiv').css({'color':'red'});
-		}
-	}
-}
-
 function gameOver(piece){// 게임 종료
 	var winner = piece.player;
 	msg = '';
@@ -98,18 +82,33 @@ function turnSet(){// 시작 턴 세팅
 }
 
 function deadPiece(){// 죽은 말 확인 다이얼로그
+	if(pieceTemp != null){
+		canvasInit();
+		pieceTemp = null;
+	}
 	msg = '';
 	msg += '<div class="poroList">';
+	msg += '<div class="poro">';
+	msg += 'A포로';
 	deadArr.forEach(function(piece,index){
-		msg += '<div class="poro">';
-		if(index){
-			msg += piece.player+'포로';
+		if(piece.player == 'A'){
+			msg += '<a href="#" onClick="javascript:deadCheck('+index+');">';
+			msg += '<img class="deadImg" src="./image/'+piece.img+'" width="150px" height="150px;">';
+			msg += '</a>';
 		}
-		msg += '<a href="#" onClick="javascript:deadClick('+index+');">';
-		msg += '<img class="deadImg" src="./image/'+piece.img+'" width="150px" height="150px;">';
-		msg += '</a>';
-		msg += '</div>';
 	});
+	msg += '</div>';
+	
+	msg += '<div class="poro">';
+	msg += 'B포로';
+	deadArr.forEach(function(piece,index){
+		if(piece.player == 'B'){
+			msg += '<a href="#" onClick="javascript:deadCheck('+index+');">';
+			msg += '<img class="deadImg" src="./image/'+piece.img+'" width="150px" height="150px;">';
+			msg += '</a>';
+		}
+	});
+	msg += '</div>';
 	msg += '</div>';
 	bootbox.dialog({
 		title: '포로 리스트',
@@ -121,4 +120,18 @@ function deadPiece(){// 죽은 말 확인 다이얼로그
 			},
 		}
 	});
+}
+
+
+function deadCancel(){// 포로 선택 취소
+	deadClick = false;
+	piArr.forEach(function(piece){
+		if(nextPiece.indexOf(piece.loc) > -1){
+			piece.color = '#ffd9b3';
+			recticleDraw(piece);
+			piece.color = '';
+		}
+	});
+	$('#deadPieceBtn').css('display','');
+	$('#deadCancelBtn').css('display','none');
 }

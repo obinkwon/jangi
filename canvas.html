@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Gamedev Canvas Workshop</title>
+	<title>Game dev Canvas Workshop</title>
 	<link rel="stylesheet" href="./bootstrap.min.css">
 	<link rel="stylesheet" href="./bootstrap-theme.min.css">
 	<style>
@@ -77,6 +77,7 @@
 	<script src="./text.js"></script>
 	<script src="./btn.js"></script>
 	<script src="./image.js"></script>
+	<script src="./check.js"></script>
 </head>
 <body>
 <div class="divMain">
@@ -103,9 +104,11 @@
 	var deadArr = new Array(); //포로 말 담는 객체 배열
 	var startYN = false; //게임 시작 / 끝
 	var pieceTemp = null; //이전 선택한 말
+	var deadTemp = null; //이전 선택한 포로
 	var nextPiece = null; //이동 가능한 위치 배열
-	var turn = 'A';
+	var turn = 'A'; //현재 턴 정보
 	var count = 0;
+	var deadClick = false; //포로 선택 여부
 	//초기 세팅
 	for(var i=1; i<5; i++){
 		for(var j=1; j<4; j++){
@@ -121,31 +124,26 @@
 			var piece = new Object();
 			piece.loc = i+''+j;
 			if(piece.loc == '12' || piece.loc == '42'){
-				piece.name = '王';
 				piece.subname = 'K';
 				piece.vali = 'on';
 				piece.color = color;
 				piece.player = player;
 			}else if(piece.loc == '11' || piece.loc == '43'){
-				piece.name = '將';
 				piece.subname = 'G';
 				piece.vali = 'on';
 				piece.color = color;
 				piece.player = player;
 			}else if(piece.loc == '13' || piece.loc == '41'){
-				piece.name = '相';
 				piece.subname = 'S';
 				piece.vali = 'on';
 				piece.color = color;
 				piece.player = player;
 			}else if(piece.loc == '22' || piece.loc == '32'){
-				piece.name = '子';
 				piece.subname = 'J';
 				piece.vali = 'on';
 				piece.color = color;
 				piece.player = player;
 			}else{
-				piece.name = '';
 				piece.subname = '';
 				piece.vali = 'off';
 				piece.color = '';
@@ -168,6 +166,7 @@
 <div class="divBtn">
 	<button id="startBtn" class="btn-primary btn" onClick="javascript:gameStart();">start</button>
 	<button id="deadPieceBtn" class="btn-primary btn" onClick="javascript:deadPiece();" style="display:none;">deadPiece</button>
+	<button id="deadCancelBtn" class="btn-primary btn" onClick="javascript:deadCancel();" style="display:none;">cancel</button>
 	<button id="restartBtn" class="btn-success btn" onClick="javascript:reStart();">restart</button>
 	<button id="rule" class="btn-info btn" onClick="javascript:rule();">rule</button>
 </div>
