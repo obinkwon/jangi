@@ -124,7 +124,7 @@ function imageMoveSet(piece){ //이미지 공격 설정
 	}else if(name == 'J'){// 자
 		mixArr = textMixJ(comb);
 	}else if(name == 'H'){// 후
-		
+		mixArr = textMixH(comb);
 	}
 	return mixArr;
 }

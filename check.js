@@ -51,8 +51,9 @@ function turnCheck(pass){ //턴 넘기기
 function pieceCheck(piece){ //자 말 체크
 	if(pieceTemp.player == 'A' && piece.loc.substr(0,1) == '1'){ //빨강 말이 후로 바뀔때
 		pieceTemp.subname = 'H';
-		pieceTemp.img = pieceTemp.color;
+		pieceTemp.img = pieceTemp.color+'_H.png';
 	}else if(pieceTemp.player == 'B' && piece.loc.substr(0,1) == '4'){ //초록 말이 후로 바뀔때
-		
+		pieceTemp.subname = 'H';
+		pieceTemp.img = pieceTemp.color+'_H.png';
 	}
 }

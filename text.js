@@ -105,3 +105,18 @@ function textMixJ(comb){ //글자 섞기 (J)
 	return mixArr;
 }
 
+function textMixH(comb){ //글자 섞기 (H)
+	console.log(comb);
+	var mixArr= new Array();
+	var cnt = 0;
+	comb.fcomb.forEach(function(arr1){
+		comb.scomb.forEach(function(arr2){
+			mixArr[cnt] = arr1+''+arr2;
+			cnt++;
+		});
+	});
+	mixArr = new Set(mixArr);
+	console.log(mixArr);
+	return mixArr;
+}
+
